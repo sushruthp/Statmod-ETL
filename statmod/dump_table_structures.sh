@@ -1,0 +1,40 @@
+#!/bin/bash
+#get table structures from sas_db to statmod on analytics_db
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us x_learn_more_image > ~/statmod/dump_x_learn_more_image.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_learn_more_image.sql
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us x_extracts_archive > ~/statmod/dump_x_extracts_archive.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_extracts_archive.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "ALTER TABLE x_extracts_archive ADD INDEX ebc_pcd (ebc,pcd);"
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us x_email_queue > ~/statmod/dump_x_email_queue.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_email_queue.sql
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us x_booking > ~/statmod/dump_x_booking.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_booking.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "DROP TABLE IF EXISTS x_booking_cancellations; RENAME TABLE x_booking TO x_booking_cancellations;"
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_booking.sql
+./x_booking_alterations.sh
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us x_upgrade_request > ~/statmod/dump_x_upgrade_request.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_upgrade_request.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "DROP TABLE IF EXISTS x_upgrade_request_award; RENAME TABLE x_upgrade_request TO x_upgrade_request_award;"
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_x_upgrade_request.sql
+./x_upgrade_request_alterations.sh
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us y_category > ~/statmod/dump_y_category.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_y_category.sql
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us y_upgrade > ~/statmod/dump_y_upgrade.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_y_upgrade.sql
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us y_property > ~/statmod/dump_y_property.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_y_property.sql
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us y_room > ~/statmod/dump_y_room.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_y_room.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "ALTER TABLE y_room ADD INDEX prop_pms (property_id,pms_cd);"
+
+mysqldump -d --single-transaction -h$sas_db_host -uabox -pG@uzz! nor1_upg_db1_dal_us y_dic_nor1guest > ~/statmod/dump_y_dic_nor1guest.sql
+mysql -u$statmod_uname -p$statmod_pwd statmod < ~/statmod/dump_y_dic_nor1guest.sql

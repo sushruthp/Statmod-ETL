@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -uahines -pluckyEGuy! statmod -B -e "\. ~/statmod/offerOutcomeDetails.sql"

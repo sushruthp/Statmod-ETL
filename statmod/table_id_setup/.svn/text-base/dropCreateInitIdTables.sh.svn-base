@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -uahines -pluckyEGuy! -B -e "\. ~/statmod.new/table_id_setup/dropCreateInitIdTables.sql"

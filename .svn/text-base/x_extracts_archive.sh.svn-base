@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -h10.36.81.2 -ustats -pSt@tus1 -B -e "\. ~/statmod/xExtractsArchive.sql"

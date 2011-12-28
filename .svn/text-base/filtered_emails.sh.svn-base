@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -uahines -pluckyEGuy! -B -e "\. ~/statmod/filteredEmails.sql"

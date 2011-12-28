@@ -1,0 +1,27 @@
+INSTRUCTIONS_FOR_INIT_STATMOD_BUILD
+===================================
+
+Step 1. Move existing cumulative tables just to be safe (instead of just dropping)
+mysql -uahines -pluckyEGuy! statmod -B -e "drop table if exists offer_outcome_summary_temp;"
+mysql -uahines -pluckyEGuy! statmod -B -e "drop table if exists offer_outcome_details_temp;"
+mysql -uahines -pluckyEGuy! statmod -B -e "drop table if exists guest_history_temp;"
+mysql -uahines -pluckyEGuy! statmod -B -e "rename table offer_outcome_summary to offer_outcome_summary_temp;"
+mysql -uahines -pluckyEGuy! statmod -B -e "rename table offer_outcome_details to offer_outcome_details_temp;"
+mysql -uahines -pluckyEGuy! statmod -B -e "rename table guest_history to guest_history_temp;"
+
+Step 2. Recreate cumulative tables
+mysql -uahines -pluckyEGuy! statmod -B -e "\. ~/statmod/createGuestHistory.sql"
+mysql -uahines -pluckyEGuy! statmod -B -e "\. ~/statmod/createOfferOutcomeDetails.sql"
+mysql -uahines -pluckyEGuy! statmod -B -e "\. ~/statmod/createOfferOutcomeSummary.sql"
+
+Step 3. Update control tables (table_id_setup process is messy and manual)
+mysql -h10.36.81.2 -ustats -pSt@tus1 -B -e "update nor1_upg_db1_dal_us.statmod_controls set done='no';"
+mysql -h10.40.19.2 -urmodel -pST@tist1cs -B -e "delete from analytics.torolog_controls where id > 1;"
+
+Step 4. Remove old logs
+rm ~/statmod/logs/*.log
+rm ~/statmod/INIT_statmod_etl.log
+
+Step 5. Go!
+cd ~/statmod
+nohup ./INIT_statmod_etl.sh >> INIT_statmod_etl.log 2>&1 &

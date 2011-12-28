@@ -1,0 +1,152 @@
+#query for new cancellation modifications on x_booking
+SET @job_id = (SELECT min(`id`) FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `done` = 'no');
+SET @prev_job_id=(SELECT max(`id`) from `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` < @job_id);
+
+SELECT
+`ID`,
+`SESSION_ID`,
+`GUEST_ID`,
+`GUEST_MODIFIED`,
+`MANAGER_MODIFIED`,
+`CREATED`,
+`MODIFIED`,
+`CREATED_USER_ID`,
+`MODIFIED_USER_ID`,
+`EXT_BOOKING_ID`,
+`SOURCE_ID`,
+`CHAIN_ID`,
+`PROPERTY_ID`,
+`CATEGORY_ID`,
+`ROOM_ID`,
+`EXT_ROOM_CD`,
+`UPGRADE_MATRIX_ID`,
+'standard',
+`CONDITION_ID`,
+`CURRENCY`,
+`PRICE`,
+`ARRIVAL`,
+`DEPARTURE`,
+`NIGHTS`,
+`ADULTS`,
+`CHILDREN`,
+`LOY_CD`,
+`RATE_CD`,
+`TIER_CD`,
+`CHANNEL_CD`,
+`REMINDER_EMAIL`,
+`TESTFLAG`,
+`UPGRADE_STATUS`,
+`NO_OFFER`,
+`HAS_AGENCY`,
+`COMMENTS`,
+`changed_by_user_id`,
+`changed_date`,
+`PID`,
+`PET`,
+`ROOMS`,
+`SENT_ALERT_REMINDER`
+FROM `upg_archive_2010_10_26`.`x_booking` 
+    WHERE `modified` >= (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @prev_job_id)
+    AND `modified` < (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @job_id)
+    AND `upgrade_status` in('upgrade_cancelled','booking_cancelled');
+
+SELECT
+`ID`,
+`SESSION_ID`,
+`GUEST_ID`,
+`GUEST_MODIFIED`,
+`MANAGER_MODIFIED`,
+`CREATED`,
+`MODIFIED`,
+`CREATED_USER_ID`,
+`MODIFIED_USER_ID`,
+`EXT_BOOKING_ID`,
+`SOURCE_ID`,
+`CHAIN_ID`,
+`PROPERTY_ID`,
+`CATEGORY_ID`,
+`ROOM_ID`,
+`EXT_ROOM_CD`,
+`UPGRADE_MATRIX_ID`,
+'standard',
+`CONDITION_ID`,
+`CURRENCY`,
+`PRICE`,
+`ARRIVAL`,
+`DEPARTURE`,
+`NIGHTS`,
+`ADULTS`,
+`CHILDREN`,
+`LOY_CD`,
+`RATE_CD`,
+`TIER_CD`,
+`CHANNEL_CD`,
+`REMINDER_EMAIL`,
+`TESTFLAG`,
+`UPGRADE_STATUS`,
+`NO_OFFER`,
+`HAS_AGENCY`,
+`COMMENTS`,
+`changed_by_user_id`,
+`changed_date`,
+`PID`,
+`PET`,
+`ROOMS`,
+`SENT_ALERT_REMINDER`
+FROM `upg_archive_2010_11_26`.`x_booking` 
+    WHERE `modified` >= (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @prev_job_id)
+    AND `modified` < (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @job_id)
+    AND `upgrade_status` in('upgrade_cancelled','booking_cancelled');
+
+SELECT
+`ID`,
+`SESSION_ID`,
+`GUEST_ID`,
+`GUEST_MODIFIED`,
+`MANAGER_MODIFIED`,
+`CREATED`,
+`MODIFIED`,
+`CREATED_USER_ID`,
+`MODIFIED_USER_ID`,
+`EXT_BOOKING_ID`,
+`SOURCE_ID`,
+`CHAIN_ID`,
+`PROPERTY_ID`,
+`CATEGORY_ID`,
+`ROOM_ID`,
+`EXT_ROOM_CD`,
+`UPGRADE_MATRIX_ID`,
+'standard',
+`CONDITION_ID`,
+`CURRENCY`,
+`PRICE`,
+`ARRIVAL`,
+`DEPARTURE`,
+`NIGHTS`,
+`ADULTS`,
+`CHILDREN`,
+`LOY_CD`,
+`RATE_CD`,
+`TIER_CD`,
+`CHANNEL_CD`,
+`REMINDER_EMAIL`,
+`TESTFLAG`,
+`UPGRADE_STATUS`,
+`NO_OFFER`,
+`HAS_AGENCY`,
+`COMMENTS`,
+`changed_by_user_id`,
+`changed_date`,
+`PID`,
+`PET`,
+`ROOMS`,
+`SENT_ALERT_REMINDER`
+FROM `upg_archive_2011_05_03`.`x_booking` 
+    WHERE `modified` >= (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @prev_job_id)
+    AND `modified` < (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @job_id)
+    AND `upgrade_status` in('upgrade_cancelled','booking_cancelled');
+
+SELECT * FROM `nor1_upg_db1_dal_us`.`x_booking` 
+    WHERE `modified` >= (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @prev_job_id)
+    AND `modified` < (SELECT `job_start` FROM `nor1_upg_db1_dal_us`.`statmod_controls` WHERE `id` = @job_id)
+    AND `upgrade_status` in('upgrade_cancelled','booking_cancelled');

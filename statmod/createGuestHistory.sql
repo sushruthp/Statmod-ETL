@@ -1,0 +1,35 @@
+#guest history table
+DROP TABLE IF EXISTS `statmod`.`guest_history`;
+
+CREATE TABLE `statmod`.`guest_history` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `email` varchar(100) NOT NULL,
+    `domain` varchar(100) default NULL,
+    `cumulative_exposures` int(11) unsigned NOT NULL default 0,
+    `cumulative_interests` int(11) unsigned NOT NULL default 0,
+    `cumulative_requests` int(11) unsigned NOT NULL default 0,
+    `cumulative_awards` int(11) unsigned NOT NULL default 0,
+    `last_exposure_interested` tinyint(1) default NULL COMMENT '1 = yes, 0 = no',
+    `last_interest_committed` tinyint(1) default NULL COMMENT '1 = yes, 0 = no',
+    `last_request_awarded` tinyint(1) default NULL COMMENT '1 = yes, 0 = no',
+    `last_exposure_datetime` datetime default NULL,
+    `last_interest_datetime` datetime default NULL,
+    `last_committed_datetime` datetime default NULL,
+    `last_awarded_date` date default NULL,
+    `max_committed_spend_absolute` float(10,2) default NULL,
+    `max_awarded_spend_absolute` float(10,2) default NULL,
+    `loyalty_history` tinyint(1) default NULL COMMENT '1 = yes, 0 = no',
+    `multiple_associated_names` tinyint(1) NOT NULL default 0 COMMENT '1 = yes, 0 = no',
+    `first_name_at_last_exposure` varchar(50) default NULL,
+    `last_exposure_property_id` int(11) NOT NULL,
+    `last_exposure_ext_booking_id` varchar(40) NOT NULL,
+    `last_interested_property_id` int(11) NOT NULL,
+    `last_interested_ext_booking_id` varchar(40) NOT NULL,
+    `last_committed_property_id` int(11) NOT NULL,
+    `last_committed_ext_booking_id` varchar(40) NOT NULL,
+    `last_awarded_property_id` int(11) NOT NULL,
+    `last_awarded_ext_booking_id` varchar(40) NOT NULL,
+    `created` timestamp NULL default CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;

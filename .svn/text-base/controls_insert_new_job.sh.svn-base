@@ -1,0 +1,8 @@
+#!/bin/bash
+mysql -h10.36.81.2 -ustats -pSt@tus1 -B -e "\. ~/statmod/statmodControlsInsertNewJob.sql" &> ~/statmod/statmodControlsInsertNewJob.log
+
+#toro-offline-1 analytics_db replica
+#mysql -uahines -pluckyEGuy! -B -e "\. ~/statmod/toroLogControlsInsertNewJob.sql" &> ~/statmod/toroLogControlsInsertNewJob.log
+
+#production analytics_db
+mysql -h10.40.19.2 -urmodel -pST@tist1cs -B -e "\. ~/statmod/toroLogControlsInsertNewJob.sql" &> ~/statmod/toroLogControlsInsertNewJob.log

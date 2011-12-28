@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -h10.36.81.2 -ustats -pSt@tus1 --skip-column-names -B -e "\. ~/statmod/table_id_setup/init_control_created_x_learn_more_image.sql" > init_control_created_x_learn_more_image.tab

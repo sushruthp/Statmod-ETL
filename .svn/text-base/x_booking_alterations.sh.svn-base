@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -uahines -pluckyEGuy! -B -e "\. ~/statmod/xBookingAlterations.sql" &> ~/statmod/xBookingAlterations.log

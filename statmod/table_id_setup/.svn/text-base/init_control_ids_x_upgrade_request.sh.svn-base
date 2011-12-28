@@ -1,0 +1,2 @@
+#!/bin/bash
+mysql -h10.36.81.2 -ustats -pSt@tus1 --skip-column-names -B -e "\. ~/statmod/table_id_setup/init_control_ids_x_upgrade_request.sql"

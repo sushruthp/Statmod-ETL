@@ -1,0 +1,80 @@
+#!/bin/bash
+cd ~/statmod
+./dump_table_structures.sh
+#1
+echo Start at `date`
+echo x_learn_more_image
+./INIT_x_learn_more_image.sh > x_learn_more_image.txt
+mysqlimport --local statmod -uahines -pluckyEGuy! x_learn_more_image.txt
+rm x_learn_more_image.txt
+echo Done at `date`
+#2
+echo x_extracts_archive
+./INIT_x_extracts_archive.sh > x_extracts_archive.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_extracts_archive.txt
+rm x_extracts_archive.txt
+echo Done at `date`
+#3
+echo x_email_queue
+./INIT_x_email_queue.sh > x_email_queue.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_email_queue.txt
+rm x_email_queue.txt
+echo Done at `date`
+#4
+echo x_booking
+./INIT_x_booking.sh > x_booking.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_booking.txt
+rm x_booking.txt
+echo Done at `date`
+#5
+echo x_booking_cancellations
+./INIT_x_booking_cancellations.sh > x_booking_cancellations.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_booking_cancellations.txt
+rm x_booking_cancellations.txt
+echo Done at `date`
+#6
+echo x_upgrade_request
+./INIT_x_upgrade_request.sh > x_upgrade_request.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_upgrade_request.txt
+rm x_upgrade_request.txt
+echo Done at `date`
+#7
+echo x_upgrade_request_award
+./INIT_x_upgrade_request_award.sh > x_upgrade_request_award.txt 
+mysqlimport --local statmod -uahines -pluckyEGuy! x_upgrade_request_award.txt
+rm x_upgrade_request_award.txt
+echo Done at `date`
+#8
+echo y_category
+./y_category.sh > y_category.txt 
+mysqlimport --local --ignore-lines=1 statmod -uahines -pluckyEGuy! y_category.txt
+rm y_category.txt
+echo Done at `date`
+#9
+echo y_upgrade
+./y_upgrade.sh > y_upgrade.txt 
+mysqlimport --local --ignore-lines=1 statmod -uahines -pluckyEGuy! y_upgrade.txt
+rm y_upgrade.txt
+echo Done at `date`
+#10
+echo y_property
+./y_property.sh > y_property.txt 
+mysqlimport --local --ignore-lines=1 statmod -uahines -pluckyEGuy! y_property.txt
+rm y_property.txt
+echo Done at `date`
+#11
+echo y_room
+./y_room.sh > y_room.txt 
+mysqlimport --local --ignore-lines=1 statmod -uahines -pluckyEGuy! y_room.txt
+rm y_room.txt
+echo Done at `date`
+#12
+echo y_dic_nor1guest
+./y_dic_nor1guest.sh > y_dic_nor1guest.txt 
+mysqlimport --local --ignore-lines=1 statmod -uahines -pluckyEGuy! y_dic_nor1guest.txt
+rm y_dic_nor1guest.txt
+echo Done at `date`
+#13
+echo email reformatting
+./email_reformatting.sh >> etl_master.log 2>&1
+echo Done at `date`
