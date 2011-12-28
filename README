@@ -1,0 +1,36 @@
+INSTRUCTIONS_FOR_INIT_STATMOD_BUILD
+===================================
+
+Step 1. Edit the ~/statmod/init_crededntials.sh file for changing the credentials.
+
+Step 2. run the startup script which sets up all the environment variables.
+source ~/statmod/init_credentials.sh
+
+Step 3. Move existing cumulative tables just to be safe (instead of just dropping)
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "drop table if exists offer_outcome_summary_temp;"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "drop table if exists offer_outcome_details_temp;"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "drop table if exists guest_history_temp;"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "rename table offer_outcome_summary to offer_outcome_summary_temp;"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "rename table offer_outcome_details to offer_outcome_details_temp;"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "rename table guest_history to guest_history_temp;"
+
+Step 4. Recreate cumulative tables
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "\. ~/statmod/createGuestHistory.sql"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "\. ~/statmod/createOfferOutcomeDetails.sql"
+mysql -u$statmod_uname -p$statmod_pwd statmod -B -e "\. ~/statmod/createOfferOutcomeSummary.sql"
+
+Step 5. Update control tables (table_id_setup process is messy and manual)
+mysql -h$sas_db_host -u$sas_db_uname -p$sas_db_pwd -B -e "update nor1_upg_db1_dal_us.statmod_controls set done='no';"
+mysql -h$analytics_db_host -u$analytics_uname -p$analytics_pwd -B -e "delete from analytics.torolog_controls where id > 1;"
+
+Step 6. Remove old logs
+rm ~/statmod/logs/*.log
+rm ~/statmod/INIT_statmod_etl.log
+
+Step 7. Go!
+cd ~/statmod
+nohup ./INIT_statmod_etl.sh >> INIT_statmod_etl.log 2>&1 &
+
+10.36.81.2  sas db machine.   ( nor1_upg_db1_dal_us=stats/St@tus1 )
+10.40.19.2  analytics_db machine (  statmod=ahines/luckyEGuy!  AND analytics=rmodel/ST@tist1cs) & localhost.
+currently database name is still hard coded.
